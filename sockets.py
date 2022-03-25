@@ -13,8 +13,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+
+
+#Some code modified from: https://github.com/abramhindle/WebSocketsExamples
+
 import flask
-from flask import Flask, request, redirect
+from flask import Flask, request, redirect, jsonify
 from flask_sockets import Sockets
 import gevent
 from gevent import queue
@@ -74,7 +78,11 @@ myWorld = World()
 
 def set_listener( entity, data ):
     ''' do something with the update ! '''
-    myWorld.add_set_listener( set_listener )
+    data = jsonify({entity:data})
+    for client in clients:
+        client.put(data)
+
+myWorld.add_set_listener( set_listener )
         
 @app.route('/')
 def hello():
@@ -85,29 +93,24 @@ def read_ws(ws,client):
     '''A greenlet function that reads from the websocket and updates the world'''
     # XXX: TODO IMPLEMENT ME
 
-    '''
-    entityName = entity
-    entityData = flask_post_json()
-    myWorld.set(entityName, entityData) 
-    return jsonify(myWorld.get(entityName))
-    '''
-
     try:
         while True:
             msg = ws.receive()
             print("WS RECV: %s" % msg)
             if (msg is not None):
                 packet = json.loads(msg)
-                print(packet)
-                #myWorld.set()
-                send_all_json(packet)
+                for entity in packet:
+                    myWorld.set(entity, packet[entity])
+
+                data = jsonify(data)
+                for client in clients:
+                    client.put(data)
 
             else:
                 break
     except:
         print("Done")
 
-    return None
 
 @sockets.route('/subscribe')
 def subscribe_socket(ws):
@@ -123,7 +126,7 @@ def subscribe_socket(ws):
             msg = client.get()
             ws.send(msg)
     except Exception as e:# WebSocketError as e:
-        print "WS Error %s" % e
+        print("WS Error %s" % e)
     finally:
         clients.remove(client)
         gevent.kill(g)
@@ -174,4 +177,4 @@ if __name__ == "__main__":
         and run
         gunicorn -k flask_sockets.worker sockets:app
     '''
-    app.run(host='0.0.0.0', port=5005) #TODO change once done development
+    app.run() 

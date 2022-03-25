@@ -1,0 +1,42 @@
+Traceback (most recent call last):
+  File "/home/student/Assignments/CMPUT404-assignment-websockets/venv/lib/python3.6/site-packages/flask_sockets.py", line 40, in __call__
+    handler, values = adapter.match()
+  File "/home/student/Assignments/CMPUT404-assignment-websockets/venv/lib/python3.6/site-packages/werkzeug/routing.py", line 1945, in match
+    raise NotFound()
+werkzeug.exceptions.NotFound: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/student/Assignments/CMPUT404-assignment-websockets/venv/lib/python3.6/site-packages/gevent/pywsgi.py", line 999, in handle_one_response
+    self.run_application()
+  File "/home/student/Assignments/CMPUT404-assignment-websockets/venv/lib/python3.6/site-packages/geventwebsocket/handler.py", line 87, in run_application
+    return super(WebSocketHandler, self).run_application()
+  File "/home/student/Assignments/CMPUT404-assignment-websockets/venv/lib/python3.6/site-packages/gevent/pywsgi.py", line 945, in run_application
+    self.result = self.application(self.environ, self.start_response)
+  File "/home/student/Assignments/CMPUT404-assignment-websockets/venv/lib/python3.6/site-packages/flask/app.py", line 2464, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "/home/student/Assignments/CMPUT404-assignment-websockets/venv/lib/python3.6/site-packages/flask_sockets.py", line 48, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "/home/student/Assignments/CMPUT404-assignment-websockets/venv/lib/python3.6/site-packages/flask/app.py", line 2450, in wsgi_app
+    response = self.handle_exception(e)
+  File "/home/student/Assignments/CMPUT404-assignment-websockets/venv/lib/python3.6/site-packages/flask/app.py", line 1867, in handle_exception
+    reraise(exc_type, exc_value, tb)
+  File "/home/student/Assignments/CMPUT404-assignment-websockets/venv/lib/python3.6/site-packages/flask/_compat.py", line 39, in reraise
+    raise value
+  File "/home/student/Assignments/CMPUT404-assignment-websockets/venv/lib/python3.6/site-packages/flask/app.py", line 2447, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/student/Assignments/CMPUT404-assignment-websockets/venv/lib/python3.6/site-packages/flask/app.py", line 1952, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/student/Assignments/CMPUT404-assignment-websockets/venv/lib/python3.6/site-packages/flask/app.py", line 1821, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/home/student/Assignments/CMPUT404-assignment-websockets/venv/lib/python3.6/site-packages/flask/_compat.py", line 39, in reraise-
+    raise value
+  File "/home/student/Assignments/CMPUT404-assignment-websockets/venv/lib/python3.6/site-packages/flask/app.py", line 1950, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/student/Assignments/CMPUT404-assignment-websockets/venv/lib/python3.6/site-packages/flask/app.py", line 1936, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/student/Assignments/CMPUT404-assignment-websockets/sockets.py", line 150, in update
+    return jsonify(myWorld.get(entityName))
+NameError: name 'jsonify' is not defined
+2022-03-25T00:30:40Z {'REMOTE_ADDR': '127.0.0.1', 'REMOTE_PORT': '59954', 'HTTP_HOST': '127.0.0.1:8000', (hidden keys: 28)} failed with NameError
