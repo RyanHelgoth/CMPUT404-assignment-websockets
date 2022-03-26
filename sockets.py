@@ -15,7 +15,7 @@
 #
 
 
-#Some code modified from: https://github.com/abramhindle/WebSocketsExamples
+#Some code copied/modified from: https://github.com/abramhindle/WebSocketsExamples
 
 import flask
 from flask import Flask, request, redirect, jsonify
@@ -74,13 +74,14 @@ class Client:
     def get(self):
         return self.queue.get()
 
-myWorld = World()        
+myWorld = World()      
+ 
 
 def set_listener( entity, data ):
     ''' do something with the update ! '''
-    data = jsonify({entity:data})
+    clientData = json.dumps({entity:data})
     for client in clients:
-        client.put(data)
+        client.put(clientData)
 
 myWorld.add_set_listener( set_listener )
         
@@ -99,13 +100,13 @@ def read_ws(ws,client):
             print("WS RECV: %s" % msg)
             if (msg is not None):
                 packet = json.loads(msg)
+                clientData = json.dumps(packet)
+                
                 for entity in packet:
                     myWorld.set(entity, packet[entity])
-
-                data = jsonify(data)
+                
                 for client in clients:
-                    client.put(data)
-
+                    client.put(clientData)
             else:
                 break
     except:
@@ -167,7 +168,7 @@ def get_entity(entity):
 def clear():
     '''Clear the world out!'''
     myWorld.clear()
-    return jsonify(myWorld.world()) #TODO check if world should be returned
+    return jsonify(myWorld.world()) 
 
 
 
